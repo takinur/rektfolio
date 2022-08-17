@@ -5,8 +5,7 @@ import {
   faWifi,
 } from "@fortawesome/free-solid-svg-icons";
 
-export const About = (props) => {
-  console.log('hello', props);
+export const Skills = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const dragHandlers = {
     axis: "both",

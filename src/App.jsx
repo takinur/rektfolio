@@ -14,10 +14,9 @@ import { faPaperPlane, faSun } from "@fortawesome/free-regular-svg-icons";
 import { window as Programm } from "./components/Window";
 import { TerminalWindow as Terminal } from "./components/TerminalWindow";
 import { About } from "./components/About";
+import { Skills } from "./components/Skills";
 import { Contact } from "./components/Contact";
 function App() {
-  const [aboutWindow, setAboutWindow] = useState([0]);
-
   //Current Time and update every second
   const [time, setTime] = useState(new Date().toLocaleTimeString());
   // useEffect(() => {
@@ -28,38 +27,44 @@ function App() {
   //   setTime(new Date().toLocaleTimeString());
   // }, 1000);
 
-  //Open program on click event
+  //-----------------------------------------------------SKILLS--
+  const [skillWindow, setSkillWindow] = useState([]); //0 for Default Window
+  
+  //Open Skills Win on click event
   const openSkillWin = (e) => {
     e.preventDefault();
-    setAboutWindow([...aboutWindow, aboutWindow.length]);
+    if(skillWindow.length < 2) {
+    setSkillWindow([...skillWindow, skillWindow.length]);
+    }
+    else{
+      alert("Yo! Hold up! You can't open more than 2 windows");
+      setSkillWindow([0]);
+    }
   };
-  //Open Multiple About window
-  // const aboutWindows = aboutWindow.map((window, index) => (
-  //   <About key={index} />
-  // ));
   //Remove aboutTask from taskbar
-  const removeAboutTask = (windex) => {
-    setAboutWindow(aboutWindow.filter((window, index) => index !== windex));
-    console.log(windex);
-  };
-  let aboutWindows = [];
-  for (let i = 0; i < aboutWindow.length; i++) {
-    aboutWindows.push(
-      <About key={i} index={i} handleClose={removeAboutTask} />
+  // const removeAboutTask = (windex) => {
+  //   setAboutWindow(aboutWindow.filter((window, index) => index !== windex));
+  //   console.log(windex);
+  // };
+  //Open Multiple About window
+  let AllSkillWindows = [];
+  for (let i = 0; i < skillWindow.length; i++) {
+    AllSkillWindows.push(
+      <Skills key={i} index={i} />
     );
   }
-  //Add to taskbar
-  const aboutTask = aboutWindow.map((window, index) => (
-    <div
-      key={index}
-      className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500"
-    >
-      <FontAwesomeIcon icon={faCircleInfo} /> About{index}
-    </div>
-  ));
+  // //Add to taskbar
+  // const aboutTask = aboutWindow.map((window, index) => (
+  //   <div
+  //     key={index}
+  //     className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500"
+  //   >
+  //     <FontAwesomeIcon icon={faCircleInfo} /> About{index}
+  //   </div>
+  // ));
 
-  const [AboutWindows, setAboutWindows] = useState([]);
-
+  //-----------------------------------------------------About Section ----------------------------------
+  const [AboutWindows, setAboutWindows] = useState([0]);
   const openAboutWin = (e) => {
     e.preventDefault();
     if(AboutWindows.length < 5) {
@@ -67,7 +72,7 @@ function App() {
     }
     else{
       alert("Yo! Hold up! You can't open more than 5 windows");
-      setAboutWindows([]);
+      setAboutWindows([0]);
     }
   };
   //Open Multiple About window
@@ -91,12 +96,10 @@ function App() {
                 />
               </a>
             </div>
-            {/* {aboutTask} */}
-            {/* {skillsTask} */}
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500 cursor-default" onClick={openAboutWin}>
               <FontAwesomeIcon icon={faCircleInfo}  /> About
             </div>
-            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500 cursor-default">
+            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500 cursor-default" onClick={openSkillWin}>
               <FontAwesomeIcon icon={faTerminal}  /> Skills
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
@@ -126,10 +129,9 @@ function App() {
           <div className="bg-violet-500 w-32">
             <button onClick={() => removeAboutTask(10)}> Close </button> <br />
             <button onClick={openAboutWin}> Open About </button>
-            {aboutTask}
           </div>
           <button onClick={openSkillWin}> Open Skills </button>
-          {AllAboutWindows}
+          {AllAboutWindows} {AllSkillWindows}
         </div>
       </div>
     </div>
