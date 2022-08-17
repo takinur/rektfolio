@@ -1,4 +1,4 @@
-import react, { useRef, useState } from "react";
+import react, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "./assets/LOGO_T_256.png";
 import {
@@ -10,28 +10,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane, faSun } from "@fortawesome/free-regular-svg-icons";
 
-import Draggable from "react-draggable";
 import { window as Programm } from "./components/Window";
-import { TerminalWindow as Terminal} from "./components/TerminalWindow";
+import { TerminalWindow as Terminal } from "./components/TerminalWindow";
 import { About } from "./components/About";
 
 function App() {
-  const nodeRef = useRef(null);
   const [aboutWindow, setAboutWindow] = useState([0]);
 
   //Current Time and update every second
   const [time, setTime] = useState(new Date().toLocaleTimeString());
-  setInterval(() => {
-    setTime(new Date().toLocaleTimeString());
-  }, 1000);
-  //Dragg Settings
-  const dragHandlers = {
-    axis: "both",
-    bounds: "parent",
-    allowAnyClick: true,
-    defaultPosition: { x: 200, y: 200 },
-    // positionOffset: { x: "10%", y: "10%" },
-  };
+  // useEffect(() => {
+  //   setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
+  // }, []);
+
+  // setInterval(() => {
+  //   setTime(new Date().toLocaleTimeString());
+  // }, 1000);
 
   //Open program on click event
   const openAboutWin = (e) => {
@@ -39,8 +33,26 @@ function App() {
     setAboutWindow([...aboutWindow, aboutWindow.length]);
   };
   //Open Multiple About window
-  const aboutWindows = aboutWindow.map((window, index) => (
-    <About key={index}/>
+  // const aboutWindows = aboutWindow.map((window, index) => (
+  //   <About key={index} />
+  // ));
+  //Remove aboutTask from taskbar
+  const removeAboutTask = (windex) => {
+    setAboutWindow(aboutWindow.filter((window, index) => index !== windex));
+    console.log(windex);
+  };
+  let aboutWindows = [];
+  for (let i = 0; i < aboutWindow.length; i++) {
+    aboutWindows.push(<About key={i} index={i} handleClose={removeAboutTask} />);
+  }
+  //Add to taskbar
+  const aboutTask = aboutWindow.map((window, index) => (
+    <div
+      key={index}
+      className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500"
+    >
+      <FontAwesomeIcon icon={faCircleInfo} /> About{index}
+    </div>
   ));
 
 
@@ -58,9 +70,7 @@ function App() {
                 />
               </a>
             </div>
-            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-              <FontAwesomeIcon icon={faCircleInfo} /> About
-            </div>
+            {aboutTask}
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
               <FontAwesomeIcon icon={faTerminal} /> Skills
             </div>
@@ -89,15 +99,11 @@ function App() {
       <div className="contaner w-full bg-green-600 h-screen flex pt-8">
         <div className="w-full relative overflow-hidden">
           <div className="bg-violet-500 w-32">
+            <button onClick={() => removeAboutTask(10)}> Close </button> <br />
             <button onClick={openAboutWin}> Open About </button>
+            {aboutTask}
           </div>
-          <Programm />
           {aboutWindows}
-          <Draggable {...dragHandlers} nodeRef={nodeRef}>
-            <div className="box bg-green-500 w-1/3" ref={nodeRef}>
-              I can only be moved within my offsetParent.
-            </div>
-          </Draggable>
         </div>
       </div>
     </div>
