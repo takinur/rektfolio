@@ -10,10 +10,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane, faSun } from "@fortawesome/free-regular-svg-icons";
 
+
 import { window as Programm } from "./components/Window";
 import { TerminalWindow as Terminal } from "./components/TerminalWindow";
 import { About } from "./components/About";
-
+import { Contact } from "./components/Contact";
 function App() {
   const [aboutWindow, setAboutWindow] = useState([0]);
 
@@ -28,7 +29,7 @@ function App() {
   // }, 1000);
 
   //Open program on click event
-  const openAboutWin = (e) => {
+  const openSkillWin = (e) => {
     e.preventDefault();
     setAboutWindow([...aboutWindow, aboutWindow.length]);
   };
@@ -43,7 +44,9 @@ function App() {
   };
   let aboutWindows = [];
   for (let i = 0; i < aboutWindow.length; i++) {
-    aboutWindows.push(<About key={i} index={i} handleClose={removeAboutTask} />);
+    aboutWindows.push(
+      <About key={i} index={i} handleClose={removeAboutTask} />
+    );
   }
   //Add to taskbar
   const aboutTask = aboutWindow.map((window, index) => (
@@ -55,6 +58,24 @@ function App() {
     </div>
   ));
 
+  const [AboutWindows, setAboutWindows] = useState([]);
+
+  const openAboutWin = (e) => {
+    e.preventDefault();
+    if(AboutWindows.length < 5) {
+    setAboutWindows([...AboutWindows, AboutWindows.length]);
+    }
+    else{
+      alert("Yo! Hold up! You can't open more than 5 windows");
+      setAboutWindows([]);
+    }
+  };
+  //Open Multiple About window
+  const AllAboutWindows = AboutWindows.map((window, index) => (
+    <About key={index} index={window} />
+    // <Skills key={index} index={window} handleClose={removeSkillsTask} />
+  ));
+ 
 
   return (
     <div className="App">
@@ -70,9 +91,13 @@ function App() {
                 />
               </a>
             </div>
-            {aboutTask}
-            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-              <FontAwesomeIcon icon={faTerminal} /> Skills
+            {/* {aboutTask} */}
+            {/* {skillsTask} */}
+            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500 cursor-default" onClick={openAboutWin}>
+              <FontAwesomeIcon icon={faCircleInfo}  /> About
+            </div>
+            <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500 cursor-default">
+              <FontAwesomeIcon icon={faTerminal}  /> Skills
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
               <FontAwesomeIcon icon={faBarsProgress} /> Work
@@ -103,7 +128,8 @@ function App() {
             <button onClick={openAboutWin}> Open About </button>
             {aboutTask}
           </div>
-          {aboutWindows}
+          <button onClick={openSkillWin}> Open Skills </button>
+          {AllAboutWindows}
         </div>
       </div>
     </div>
