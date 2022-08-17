@@ -1,6 +1,5 @@
 import react, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Draggable from "react-draggable";
 import Logo from "./assets/LOGO_T_256.png";
 import {
   faWifi,
@@ -11,9 +10,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane, faSun } from "@fortawesome/free-regular-svg-icons";
 
+import Draggable from "react-draggable";
+import { window as Programm } from "./components/Window";
+import { TerminalWindow as Terminal} from "./components/TerminalWindow";
+import { About } from "./components/About";
+
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
   const nodeRef = useRef(null);
+  const [aboutWindow, setAboutWindow] = useState([0]);
 
   //Current Time and update every second
   const [time, setTime] = useState(new Date().toLocaleTimeString());
@@ -28,31 +32,17 @@ function App() {
     defaultPosition: { x: 200, y: 200 },
     // positionOffset: { x: "10%", y: "10%" },
   };
+
   //Open program on click event
-  const handleClick = (e) => {
+  const openAboutWin = (e) => {
     e.preventDefault();
-    setIsOpen(true);
-    console.log("Clicked", e);
+    setAboutWindow([...aboutWindow, aboutWindow.length]);
   };
-  let programm;
-  if (isOpen) {
-    programm = (
-      <Draggable {...dragHandlers} nodeRef={nodeRef}>
-        <div className="box bg-green-500 w-1/3" ref={nodeRef}>
-          I can only be moved within my offsetParent.
-        </div>
-      </Draggable>
-    );
-  } else {
-    programm = (
-      // <Draggable {...dragHandlers} nodeRef={nodeRef}>
-      //   <div className="box bg-green-500 w-1/3" ref={nodeRef}>
-      //     Oh no
-      //   </div>
-      // </Draggable>
-      null
-    );
-  }
+  //Open Multiple About window
+  const aboutWindows = aboutWindow.map((window, index) => (
+    <About key={index}/>
+  ));
+
 
   return (
     <div className="App">
@@ -69,16 +59,16 @@ function App() {
               </a>
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-            <FontAwesomeIcon icon={faCircleInfo} /> About
+              <FontAwesomeIcon icon={faCircleInfo} /> About
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-            <FontAwesomeIcon icon={faTerminal} /> Skills
+              <FontAwesomeIcon icon={faTerminal} /> Skills
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-            <FontAwesomeIcon icon={faBarsProgress} /> Work
+              <FontAwesomeIcon icon={faBarsProgress} /> Work
             </div>
             <div className="border-l-2 border-zinc-400 px-2 hover:bg-gray-500">
-            <FontAwesomeIcon icon={faPaperPlane} /> Contact
+              <FontAwesomeIcon icon={faPaperPlane} /> Contact
             </div>
           </div>
           <div className="flex items-end">
@@ -99,9 +89,10 @@ function App() {
       <div className="contaner w-full bg-green-600 h-screen flex pt-8">
         <div className="w-full relative overflow-hidden">
           <div className="bg-violet-500 w-32">
-            <button onClick={handleClick}> CLick me </button>
+            <button onClick={openAboutWin}> Open About </button>
           </div>
-          {programm}
+          <Programm />
+          {aboutWindows}
           <Draggable {...dragHandlers} nodeRef={nodeRef}>
             <div className="box bg-green-500 w-1/3" ref={nodeRef}>
               I can only be moved within my offsetParent.
