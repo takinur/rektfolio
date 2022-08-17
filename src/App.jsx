@@ -27,17 +27,17 @@ function App() {
   //   setTime(new Date().toLocaleTimeString());
   // }, 1000);
 
-  //-----------------------------------------------------SKILLS--
-  const [skillWindow, setSkillWindow] = useState([]); //0 for Default Window
+  //-----------------------------------------------------SKILLS-------------------
+  const [skillWindow, setSkillWindow] = useState([0]); //0 for Default Window
   
   //Open Skills Win on click event
   const openSkillWin = (e) => {
     e.preventDefault();
-    if(skillWindow.length < 2) {
+    if(skillWindow.length < 10) {
     setSkillWindow([...skillWindow, skillWindow.length]);
     }
     else{
-      alert("Yo! Hold up! You can't open more than 2 windows");
+      alert("Yo! Hold up! You can't open more than 10 windows");
       setSkillWindow([0]);
     }
   };
