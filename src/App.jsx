@@ -1,6 +1,8 @@
 import react, { useRef, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Draggable from "react-draggable";
 import Logo from './assets/LOGO_T_256.png'
+import { faCocktail } from "@fortawesome/free-solid-svg-icons";
 
 function App() {
   // const [position, setPosition] = useState({x: 0, y: 0});
@@ -25,6 +27,8 @@ function App() {
      
           </div>
           <div className="flex items-end">
+
+            <FontAwesomeIcon icon={faCocktail} className="text-red-400 text-2xl mr-2" />
             second section
           </div>
         </nav>
