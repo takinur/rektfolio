@@ -1,6 +1,7 @@
 import react, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "./assets/LOGO_T_256.png";
+import BackgroundImg from "./assets/LinuxBG.jpg"; //TODO: COnvert to WEBP
 import {
   faWifi,
   faVolumeHigh,
@@ -11,21 +12,19 @@ import {
 import { faPaperPlane, faSun } from "@fortawesome/free-regular-svg-icons";
 
 
-import { window as Programm } from "./components/Window";
-import { TerminalWindow as Terminal } from "./components/TerminalWindow";
 import { About } from "./components/About";
 import { Skills } from "./components/Skills";
 import { Contact } from "./components/Contact";
 function App() {
   //Current Time and update every second
   const [time, setTime] = useState(new Date().toLocaleTimeString());
-  // useEffect(() => {
-  //   setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
-  // }, []);
+  useEffect(() => {
+    setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
+  }, []);
 
-  // setInterval(() => {
-  //   setTime(new Date().toLocaleTimeString());
-  // }, 1000);
+  setInterval(() => {
+    setTime(new Date().toLocaleTimeString());
+  }, 1000);
 
   //-----------------------------------------------------SKILLS-------------------
   const [skillWindow, setSkillWindow] = useState([0]); //0 for Default Window
@@ -124,13 +123,8 @@ function App() {
           </div>
         </nav>
       </header>
-      <div className="contaner w-full bg-green-600 h-screen flex pt-8">
+      <div className="contaner w-full h-screen flex pt-8 bg-cover" style={{ background: `url(${BackgroundImg})`, }}>
         <div className="w-full relative overflow-hidden">
-          <div className="bg-violet-500 w-32">
-            <button onClick={() => removeAboutTask(10)}> Close </button> <br />
-            <button onClick={openAboutWin}> Open About </button>
-          </div>
-          <button onClick={openSkillWin}> Open Skills </button>
           {AllAboutWindows} {AllSkillWindows}
         </div>
       </div>
